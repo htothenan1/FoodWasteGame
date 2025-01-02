@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useDrop } from "react-dnd"
 import { motion, AnimatePresence } from "framer-motion"
+import { useNavigate } from "react-router-dom"
 import { Howl } from "howler"
 import Item from "./Item"
 import "../styles/GameBoard.css"
@@ -66,11 +67,12 @@ const GameBoard = ({ selectedIngredients, totalPrice }) => {
   const [basket, setBasket] = useState(selectedIngredients) // Use the ingredients array
   const [showGameOver, setShowGameOver] = useState(false)
   const [popupMessage, setPopupMessage] = useState(null) // Store the popup message
+  const navigate = useNavigate()
 
   const [sparkles, setSparkles] = useState({})
 
   const onReturnToSelection = () => {
-    window.location.reload() // Refresh the page to go back to the initial state
+    navigate("/")
   }
 
   const placeItemSound = new Howl({
@@ -109,6 +111,7 @@ const GameBoard = ({ selectedIngredients, totalPrice }) => {
       <div className="game-title">
         <h1>Place your items correctly</h1>
         <p>Total: ${totalPrice.toFixed(2)}</p>
+        <button onClick={() => navigate("/new-scene")}>go to new scene</button>
       </div>
 
       {/* Overlay Popup */}

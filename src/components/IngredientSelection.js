@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Howl } from "howler"
+import { useNavigate } from "react-router-dom"
 import { ingredients } from "../data/ingredients"
 import "../styles/IngredientSelection.css"
 
@@ -7,6 +8,7 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
   const [selectedIngredients, setSelectedIngredients] = useState([])
   const [totalPrice, setTotalPrice] = useState(0) // State for total price
   const [activeCategory, setActiveCategory] = useState("vegetables")
+  const navigate = useNavigate()
 
   const capitalizeFirstLetter = (string) =>
     string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
@@ -40,6 +42,7 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
   const handleProceed = () => {
     onStartGame({ ingredients: selectedIngredients, totalPrice })
     swishSound.play()
+    navigate("/game-board")
   }
 
   const handleRandomize = () => {
