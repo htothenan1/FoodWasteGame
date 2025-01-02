@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core"
 import { useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
@@ -9,6 +9,19 @@ const NewScene = () => {
   const [items, setItems] = useState(location.state?.items || []) // Items passed from GameBoard
   const [currentItemIndex, setCurrentItemIndex] = useState(0)
   const [popupMessage, setPopupMessage] = useState(null)
+  const [isDragging, setIsDragging] = useState(false)
+
+  // Disable scrolling on mobile while dragging
+  useEffect(() => {
+    if (isDragging) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "auto"
+    }
+    return () => {
+      document.body.style.overflow = "auto"
+    }
+  }, [isDragging])
 
   const handleDrop = (boxName) => {
     const currentItem = items[currentItemIndex]
@@ -49,6 +62,10 @@ const NewScene = () => {
       useDraggable({
         id: item.name, // Use item.name as the unique key
       })
+
+    useEffect(() => {
+      setIsDragging(isDragging)
+    }, [isDragging])
 
     const style = {
       transform: transform
