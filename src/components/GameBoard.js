@@ -111,7 +111,15 @@ const GameBoard = ({ selectedIngredients, totalPrice }) => {
       <div className="game-title">
         <h1>Place your items correctly</h1>
         <p>Total: ${totalPrice.toFixed(2)}</p>
-        <button onClick={() => navigate("/new-scene")}>go to new scene</button>
+        <button
+          onClick={() =>
+            navigate("/new-scene", {
+              state: { items: selectedIngredients },
+            })
+          }
+        >
+          Go to New Scene
+        </button>
       </div>
 
       {/* Overlay Popup */}
