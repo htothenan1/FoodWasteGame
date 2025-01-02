@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core"
 import { useLocation } from "react-router-dom"
-
 import { CSS } from "@dnd-kit/utilities"
 import { motion, AnimatePresence } from "framer-motion"
 import "../styles/NewScene.css"
