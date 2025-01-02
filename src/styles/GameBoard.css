@@ -1,0 +1,203 @@
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.game-board {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  width: 100vw; /* Full viewport width */
+  height: 100%; /* Full height of the container */
+  background-image: url("/public/backdrop.png"); /* Ensure the correct path */
+  background-size: contain; /* Ensures the image stretches to cover the container */
+  background-position: bottom;
+  position: relative; /* Keeps elements layered on top */
+}
+
+/* Countertop */
+.countertop {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 170px;
+  margin-right: 70px;
+}
+
+.countertop .section {
+  width: 280px;
+  height: 280px;
+}
+
+/* Fridge/Freezer */
+.fridge-freezer {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+
+.fridge {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.fridge-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.shelves .section {
+  width: 140px; /* Adjusted for better proportions */
+  height: 200px; /* Slightly reduced height */
+}
+
+.crisper .section {
+  width: 140px; /* Matches the shelves width */
+  height: 70px; /* Reduced height for better balance */
+}
+
+.fridge-door-left,
+.fridge-door-right {
+  display: flex;
+  align-items: center;
+}
+
+.fridge-door-left .section,
+.fridge-door-right .section {
+  width: 80px; /* Slightly narrower for balance */
+  height: 270px; /* Adjusted for proportion */
+}
+
+.freezer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.freezer .section {
+  width: 160px; /* Matches the fridge section width */
+  height: 90px; /* Increased height for better proportions */
+}
+
+/* Pantry */
+.pantry {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 130px;
+  margin-left: 50px;
+}
+
+.pantry .section {
+  width: 350px;
+  height: 350px;
+}
+
+/* Sections */
+.section {
+  border-radius: 10px;
+  width: 200px;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.sparkles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 3px solid #ffd700;
+  border-radius: 10px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.basket {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  /* margin-top: 20px; */
+  flex-wrap: wrap;
+  /* max-width: 800px; */
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 90%; /* Responsive for smaller screens */
+  width: 30%; /* Default width */
+}
+
+.popup-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.popup-button:hover {
+  background-color: #45a049;
+}
+
+.game-title {
+  position: absolute;
+  top: 35%;
+  right: 100px; /* Aligns to the right side above the countertop */
+  transform: translateY(-120%); /* Adjust based on spacing above countertop */
+  text-align: center;
+  z-index: 10;
+  width: 250px;
+}
+
+.game-title h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.game-title p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.game-title h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.game-title p {
+  font-size: 1.2rem;
+  color: #666;
+}

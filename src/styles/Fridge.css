@@ -1,0 +1,35 @@
+.fridge {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 300px;
+  height: 500px;
+  background: #ddd;
+  border: 5px solid #aaa;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 20px auto;
+}
+
+.fridge-section {
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  min-height: 100px;
+}
+
+.fridge-item {
+  background-color: #90caf9;
+  border: 1px solid #64b5f6;
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin: 5px 0;
+  font-size: 20px;
+  text-align: center;
+}
