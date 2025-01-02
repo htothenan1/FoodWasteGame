@@ -1,8 +1,57 @@
 import React, { useState, useEffect } from "react"
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core"
 import { useLocation } from "react-router-dom"
+
+import { CSS } from "@dnd-kit/utilities"
 import { motion, AnimatePresence } from "framer-motion"
 import "../styles/NewScene.css"
+
+const Draggable = ({ item }) => {
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: item.name,
+    })
+
+  const style = {
+    transform: transform ? CSS.Translate.toString(transform) : undefined,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      className="current-item"
+    >
+      <img src={item.img} alt={item.name} className="item-image" />
+      <p>{item.name}</p>
+    </div>
+  )
+}
+
+const Droppable = ({ name, style, onDrop }) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id: name,
+  })
+
+  return (
+    <motion.div
+      ref={setNodeRef}
+      className="box-container"
+      style={{
+        ...style,
+        backgroundColor: isOver ? "rgba(173, 216, 230, 0.7)" : "white",
+      }}
+      whileHover={{ scale: 1.1 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      onClick={() => onDrop(name)}
+    >
+      <p>{name}</p>
+    </motion.div>
+  )
+}
 
 const NewScene = () => {
   const location = useLocation()
@@ -13,14 +62,8 @@ const NewScene = () => {
 
   // Disable scrolling on mobile while dragging
   useEffect(() => {
-    if (isDragging) {
-      document.body.style.overflow = "hidden"
-    } else {
-      document.body.style.overflow = "auto"
-    }
-    return () => {
-      document.body.style.overflow = "auto"
-    }
+    document.body.style.overflow = isDragging ? "hidden" : "auto"
+    return () => (document.body.style.overflow = "auto")
   }, [isDragging])
 
   const handleDrop = (boxName) => {
@@ -32,65 +75,11 @@ const NewScene = () => {
     setTimeout(() => setPopupMessage(null), 1500)
   }
 
-  const Box = ({ name, style }) => {
-    const { setNodeRef, isOver } = useDroppable({
-      id: name,
-    })
-
-    return (
-      <motion.div
-        ref={setNodeRef}
-        className="box-container"
-        style={{
-          ...style,
-          backgroundColor: isOver ? "rgba(173, 216, 230, 0.7)" : "white",
-        }}
-        whileHover={{ scale: 1.1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        onClick={() =>
-          currentItemIndex < items.length &&
-          handleDrop(name, items[currentItemIndex])
-        }
-      >
-        <p>{name}</p>
-      </motion.div>
-    )
-  }
-
-  const Item = ({ item }) => {
-    const { attributes, listeners, setNodeRef, transform, isDragging } =
-      useDraggable({
-        id: item.name, // Use item.name as the unique key
-      })
-
-    useEffect(() => {
-      setIsDragging(isDragging)
-    }, [isDragging])
-
-    const style = {
-      transform: transform
-        ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-        : undefined,
-      opacity: isDragging ? 0.5 : 1,
-    }
-
-    return (
-      <div
-        ref={setNodeRef}
-        style={style}
-        {...listeners}
-        {...attributes}
-        className="current-item"
-      >
-        <img src={item.img} alt={item.name} className="item-image" />
-        <p>{item.name}</p>
-      </div>
-    )
-  }
-
   return (
     <DndContext
-      onDragEnd={({ active, over }) => {
+      onDragStart={() => setIsDragging(true)}
+      onDragEnd={({ over }) => {
+        setIsDragging(false)
         if (over && currentItemIndex < items.length) {
           handleDrop(over.id)
         }
@@ -102,22 +91,25 @@ const NewScene = () => {
           <div className="backdrop"></div>
 
           {/* Boxes */}
-          <Box
+          <Droppable
             name="Box 1"
             style={{ top: "10%", left: "10%", width: "20%", height: "25%" }}
+            onDrop={handleDrop}
           />
-          <Box
+          <Droppable
             name="Box 2"
             style={{ top: "10%", left: "40%", width: "25%", height: "25%" }}
+            onDrop={handleDrop}
           />
-          <Box
+          <Droppable
             name="Box 3"
             style={{ top: "10%", left: "75%", width: "15%", height: "30%" }}
+            onDrop={handleDrop}
           />
 
           {/* Item display lane */}
           {currentItemIndex < items.length && (
-            <Item item={items[currentItemIndex]} />
+            <Draggable item={items[currentItemIndex]} />
           )}
 
           {/* Overlay Popup */}
