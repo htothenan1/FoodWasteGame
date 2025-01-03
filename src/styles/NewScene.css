@@ -23,7 +23,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/public/backdrop.png");
+  background-image: url("/public/backdrop4.png");
   background-size: cover;
   background-position: center;
   z-index: -1;
@@ -31,21 +31,19 @@
 
 .box-container {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 2px solid #ccc;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   aspect-ratio: 1 / 1;
+  border: none; /* Remove any forced borders */
 }
 
 .current-item {
   position: absolute;
-  top: 8%;
-  left: 50%;
-  /* transform: translateX(-50%); */
+  top: 10%;
+  left: 45%;
   width: 10vw; /* Scales with viewport width */
   height: 10vw; /* Matches the width for a perfect square */
   max-width: 120px;
@@ -58,6 +56,8 @@
 .current-item img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* Image fits perfectly within the container */
+  object-fit: contain;
   border-radius: 10px;
+  background: none; /* Ensures the image's natural transparency */
+  cursor: grab;
 }

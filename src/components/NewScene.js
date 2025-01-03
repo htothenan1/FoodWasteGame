@@ -34,20 +34,32 @@ const Droppable = ({ name, style, onDrop }) => {
     id: name,
   })
 
+  // Map box names to image files stored in the public folder
+  const boxImages = {
+    Pantry: "/pantry.png",
+    Fridge: "/fridge3.png",
+    Freezer: "/freezer.png",
+    Countertop: "/countertop.png",
+  }
+
   return (
     <motion.div
       ref={setNodeRef}
       className="box-container"
       style={{
         ...style,
-        backgroundColor: isOver ? "rgba(173, 216, 230, 0.7)" : "white",
+        backgroundColor: "transparent", // Removed blue background change
+        backgroundImage: `url(${boxImages[name]})`,
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        cursor: "pointer", // Change cursor when hovering over the box
       }}
+      animate={isOver ? { scale: 1.1 } : { scale: 1 }} // Apply scale animation on drop
       whileHover={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       onClick={() => onDrop(name)}
-    >
-      <p>{name}</p>
-    </motion.div>
+    />
   )
 }
 
@@ -75,7 +87,9 @@ const NewScene = () => {
     const currentItem = items[currentItemIndex]
     if (!currentItem) return
 
-    setPopupMessage(`You placed ${currentItem.name} in ${boxName}.`)
+    setPopupMessage(
+      `You placed ${currentItem.name} in ${boxName}. ${currentItem.storage_tip}`
+    )
     setCurrentItemIndex((prevIndex) => prevIndex + 1)
     setTimeout(() => setPopupMessage(null), 1500)
   }
@@ -99,20 +113,20 @@ const NewScene = () => {
           <Droppable
             name="Pantry"
             style={{
-              bottom: "10%",
-              left: "10%",
-              width: "20vw",
-              height: "20vw",
+              bottom: "35%",
+              left: "0%",
+              width: "18vw",
+              height: "18vw",
             }}
             onDrop={handleDrop}
           />
           <Droppable
             name="Fridge"
             style={{
-              bottom: "30%",
-              left: "40%",
-              width: "25vw",
-              height: "15vw",
+              bottom: "10%",
+              left: "45%",
+              width: "35vw",
+              height: "35vw",
             }}
             onDrop={handleDrop}
           />
@@ -120,9 +134,9 @@ const NewScene = () => {
             name="Freezer"
             style={{
               bottom: "10%",
-              left: "40%",
-              width: "25vw",
-              height: "10vw",
+              left: "25%",
+              width: "20vw",
+              height: "20vw",
             }}
             onDrop={handleDrop}
           />
@@ -130,10 +144,10 @@ const NewScene = () => {
           <Droppable
             name="Countertop"
             style={{
-              bottom: "10%",
-              left: "75%",
-              width: "15vw",
-              height: "15vw",
+              bottom: "0%",
+              left: "80%",
+              width: "28vw",
+              height: "28vw",
             }}
             onDrop={handleDrop}
           />
