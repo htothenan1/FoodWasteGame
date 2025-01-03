@@ -12,8 +12,16 @@ const Draggable = ({ item }) => {
     })
 
   const style = {
-    transform: transform ? CSS.Translate.toString(transform) : undefined,
+    transform: CSS.Translate.toString(transform || { x: 0, y: 0 }), // Default to no offset
     opacity: isDragging ? 0.5 : 1,
+    position: "absolute",
+    left: "50%",
+    bottom: "5%",
+    transformOrigin: "center", // Ensures consistent scaling or rotation
+  }
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
   }
 
   return (
@@ -25,7 +33,7 @@ const Draggable = ({ item }) => {
       className="current-item"
     >
       <img src={item.img} alt={item.name} className="item-image" />
-      <p>{item.name}</p>
+      <p>{capitalizeFirstLetter(item.name)}</p>
     </div>
   )
 }
