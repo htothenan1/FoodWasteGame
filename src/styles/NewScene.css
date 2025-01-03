@@ -1,21 +1,20 @@
 .scene-wrapper {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .scene-container {
   position: relative;
-  width: 800px; /* Fixed width for more solidity */
-  height: 600px; /* Fixed height for consistent sizing */
-  background-color: rgba(240, 240, 240, 0.9); /* Slightly opaque */
+  width: 100%;
+  max-width: 1920px;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  top: 0;
 }
 
 .backdrop {
@@ -43,14 +42,13 @@
 
 .current-item {
   position: absolute;
-  bottom: 10%;
+  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
   background-color: #fff;
   padding: 10px 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  cursor: grab;
 }
 
 /* Popup Overlay */
@@ -76,4 +74,32 @@
   max-width: 90%;
   width: 300px;
   font-size: 1.2rem;
+}
+
+/* Message */
+.message {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 255, 0, 0.1);
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.draggable-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: grab;
+  z-index: 10;
 }

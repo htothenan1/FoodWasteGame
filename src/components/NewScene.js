@@ -61,8 +61,16 @@ const NewScene = () => {
 
   // Disable scrolling on mobile while dragging
   useEffect(() => {
+    const handleTouchMove = (e) => {
+      if (isDragging) e.preventDefault()
+    }
     document.body.style.overflow = isDragging ? "hidden" : "auto"
-    return () => (document.body.style.overflow = "auto")
+    window.addEventListener("touchmove", handleTouchMove, { passive: false })
+
+    return () => {
+      document.body.style.overflow = "auto"
+      window.removeEventListener("touchmove", handleTouchMove)
+    }
   }, [isDragging])
 
   const handleDrop = (boxName) => {
