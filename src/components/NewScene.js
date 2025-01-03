@@ -12,16 +12,8 @@ const Draggable = ({ item }) => {
     })
 
   const style = {
-    transform: CSS.Translate.toString(transform || { x: 0, y: 0 }), // Default to no offset
+    transform: CSS.Translate.toString(transform || { x: 0, y: 0 }),
     opacity: isDragging ? 0.5 : 1,
-    position: "absolute",
-    left: "50%",
-    bottom: "5%",
-    transformOrigin: "center", // Ensures consistent scaling or rotation
-  }
-
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
   }
 
   return (
@@ -32,8 +24,7 @@ const Draggable = ({ item }) => {
       {...attributes}
       className="current-item"
     >
-      <img src={item.img} alt={item.name} className="item-image" />
-      <p>{capitalizeFirstLetter(item.name)}</p>
+      <img src={item.img} alt={item.name} />
     </div>
   )
 }
@@ -67,7 +58,6 @@ const NewScene = () => {
   const [popupMessage, setPopupMessage] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
 
-  // Disable scrolling on mobile while dragging
   useEffect(() => {
     const handleTouchMove = (e) => {
       if (isDragging) e.preventDefault()
@@ -107,18 +97,44 @@ const NewScene = () => {
 
           {/* Boxes */}
           <Droppable
-            name="Box 1"
-            style={{ top: "10%", left: "10%", width: "20%", height: "25%" }}
+            name="Pantry"
+            style={{
+              bottom: "10%",
+              left: "10%",
+              width: "20vw",
+              height: "20vw",
+            }}
             onDrop={handleDrop}
           />
           <Droppable
-            name="Box 2"
-            style={{ top: "10%", left: "40%", width: "25%", height: "25%" }}
+            name="Fridge"
+            style={{
+              bottom: "30%",
+              left: "40%",
+              width: "25vw",
+              height: "15vw",
+            }}
             onDrop={handleDrop}
           />
           <Droppable
-            name="Box 3"
-            style={{ top: "10%", left: "75%", width: "15%", height: "30%" }}
+            name="Freezer"
+            style={{
+              bottom: "10%",
+              left: "40%",
+              width: "25vw",
+              height: "10vw",
+            }}
+            onDrop={handleDrop}
+          />
+
+          <Droppable
+            name="Countertop"
+            style={{
+              bottom: "10%",
+              left: "75%",
+              width: "15vw",
+              height: "15vw",
+            }}
             onDrop={handleDrop}
           />
 
