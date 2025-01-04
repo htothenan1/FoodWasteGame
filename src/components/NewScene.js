@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react"
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core"
 import { useLocation, useNavigate } from "react-router-dom"
+import { Howl } from "howler"
 import { CSS } from "@dnd-kit/utilities"
 import { motion, AnimatePresence } from "framer-motion"
 import "../styles/NewScene.css"
+
+const placeItemSound = new Howl({
+  src: ["/sounds/ding.wav"],
+  volume: 0.5,
+})
 
 const Draggable = ({ item }) => {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
@@ -70,7 +76,8 @@ const NewScene = () => {
   const [currentItemIndex, setCurrentItemIndex] = useState(0)
   const [popupMessage, setPopupMessage] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
-  const [gameOver, setGameOver] = useState(false) // New state for game over popup
+  const [popupVisible, setPopupVisible] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
 
   useEffect(() => {
     const handleTouchMove = (e) => {
@@ -85,27 +92,35 @@ const NewScene = () => {
     }
   }, [isDragging])
 
+  const unCapitalizeFirstLetter = (string) =>
+    string.charAt(0).toLowerCase() + string.slice(1).toLowerCase()
+
   const handleDrop = (boxName) => {
     const currentItem = items[currentItemIndex]
     if (!currentItem) return
 
+    placeItemSound.play()
+
     setPopupMessage(
-      `You placed ${currentItem.name} in ${boxName}. ${currentItem.storage_tip}`
+      `You placed ${currentItem.name} in the ${unCapitalizeFirstLetter(
+        boxName
+      )}. ${currentItem.storage_tip}`
     )
+    setPopupVisible(true)
+  }
+
+  const handlePopupClick = () => {
+    setPopupVisible(false)
+    setPopupMessage(null)
     setCurrentItemIndex((prevIndex) => prevIndex + 1)
 
-    // Check if all items have been placed
     if (currentItemIndex + 1 >= items.length) {
-      setTimeout(() => {
-        setGameOver(true) // Trigger game over popup
-      }, 1500)
-    } else {
-      setTimeout(() => setPopupMessage(null), 1500)
+      setGameOver(true)
     }
   }
 
   const handleRestart = () => {
-    navigate("/") // Redirect back to the ingredient selection screen
+    navigate("/")
   }
 
   const capitalizeFirstLetter = (string) =>
@@ -172,19 +187,21 @@ const NewScene = () => {
             onDrop={handleDrop}
           />
 
+          {/* Draggable Item */}
           {currentItemIndex < items.length && (
             <Draggable item={items[currentItemIndex]} />
           )}
 
-          {/* Overlay Popup */}
+          {/* Persistent Popup */}
           <AnimatePresence>
-            {popupMessage && (
+            {popupVisible && (
               <motion.div
                 className="popup-overlay"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
+                onClick={handlePopupClick}
               >
                 <motion.div
                   className="popup-content"
@@ -194,6 +211,7 @@ const NewScene = () => {
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   <p>{popupMessage}</p>
+                  <p className="tap-continue">Tap anywhere to continue</p>
                 </motion.div>
               </motion.div>
             )}
@@ -206,6 +224,7 @@ const NewScene = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
+                onClick={handleRestart}
               >
                 <motion.div
                   className="popup-content"
@@ -215,7 +234,7 @@ const NewScene = () => {
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   <p>All items have been placed!</p>
-                  <button onClick={handleRestart}>Restart Game</button>
+                  <p className="tap-continue">Tap anywhere to restart</p>
                 </motion.div>
               </motion.div>
             )}

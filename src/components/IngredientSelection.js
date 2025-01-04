@@ -76,7 +76,7 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
   return (
     <div className="ingredient-selection">
       <div className="header">
-        <h1>Choose Your Foods (up to 10)</h1>
+        <h1>Choose Up to 10 Foods</h1>
         <p className="total-price">Total: ${totalPrice.toFixed(2)}</p>
       </div>
       <div className="button-group">
@@ -118,7 +118,7 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
             >
               <img src={ingredient.img} alt={ingredient.name} />
               <p>{capitalizeFirstLetter(ingredient.name)}</p>
-              <p className="price-tag">${ingredient.price.toFixed(2)}</p>
+              {/* <p className="price-tag">${ingredient.price.toFixed(2)}</p> */}
             </div>
           ))}
         </div>
