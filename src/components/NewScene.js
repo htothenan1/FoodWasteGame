@@ -72,18 +72,18 @@ const NewScene = () => {
   const [isDragging, setIsDragging] = useState(false)
   const [gameOver, setGameOver] = useState(false) // New state for game over popup
 
-  //   useEffect(() => {
-  //     const handleTouchMove = (e) => {
-  //       if (isDragging) e.preventDefault()
-  //     }
-  //     document.body.style.overflow = isDragging ? "hidden" : "auto"
-  //     window.addEventListener("touchmove", handleTouchMove, { passive: false })
+  useEffect(() => {
+    const handleTouchMove = (e) => {
+      if (isDragging) e.preventDefault()
+    }
+    document.body.style.overflow = isDragging ? "hidden" : "auto"
+    window.addEventListener("touchmove", handleTouchMove, { passive: false })
 
-  //     return () => {
-  //       document.body.style.overflow = "auto"
-  //       window.removeEventListener("touchmove", handleTouchMove)
-  //     }
-  //   }, [isDragging])
+    return () => {
+      document.body.style.overflow = "auto"
+      window.removeEventListener("touchmove", handleTouchMove)
+    }
+  }, [isDragging])
 
   const handleDrop = (boxName) => {
     const currentItem = items[currentItemIndex]
