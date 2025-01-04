@@ -40,9 +40,13 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
   }
 
   const handleProceed = () => {
-    onStartGame({ ingredients: selectedIngredients, totalPrice })
     swishSound.play()
-    navigate("/game-board")
+    navigate("/new-scene", {
+      state: {
+        items: selectedIngredients,
+        totalPrice: totalPrice,
+      },
+    })
   }
 
   const handleRandomize = () => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { CSS } from "@dnd-kit/utilities"
 import { motion, AnimatePresence } from "framer-motion"
 import "../styles/NewScene.css"
@@ -55,8 +55,8 @@ const Droppable = ({ name, style, onDrop }) => {
         backgroundPosition: "center",
         cursor: "pointer",
       }}
-      animate={isOver ? { scale: 1.1 } : { scale: 1 }} // Animation grows when item is dragged over
-      whileHover={{ scale: 1.1 }} // Animation grows when hovered over
+      animate={isOver ? { scale: 1.1 } : { scale: 1 }}
+      whileHover={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       onClick={() => onDrop(name)}
     />
@@ -65,23 +65,25 @@ const Droppable = ({ name, style, onDrop }) => {
 
 const NewScene = () => {
   const location = useLocation()
-  const [items, setItems] = useState(location.state?.items || [])
+  const navigate = useNavigate()
+  const { items = [], totalPrice = 0 } = location.state || {}
   const [currentItemIndex, setCurrentItemIndex] = useState(0)
   const [popupMessage, setPopupMessage] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
+  const [gameOver, setGameOver] = useState(false) // New state for game over popup
 
-  useEffect(() => {
-    const handleTouchMove = (e) => {
-      if (isDragging) e.preventDefault()
-    }
-    document.body.style.overflow = isDragging ? "hidden" : "auto"
-    window.addEventListener("touchmove", handleTouchMove, { passive: false })
+  //   useEffect(() => {
+  //     const handleTouchMove = (e) => {
+  //       if (isDragging) e.preventDefault()
+  //     }
+  //     document.body.style.overflow = isDragging ? "hidden" : "auto"
+  //     window.addEventListener("touchmove", handleTouchMove, { passive: false })
 
-    return () => {
-      document.body.style.overflow = "auto"
-      window.removeEventListener("touchmove", handleTouchMove)
-    }
-  }, [isDragging])
+  //     return () => {
+  //       document.body.style.overflow = "auto"
+  //       window.removeEventListener("touchmove", handleTouchMove)
+  //     }
+  //   }, [isDragging])
 
   const handleDrop = (boxName) => {
     const currentItem = items[currentItemIndex]
@@ -91,7 +93,19 @@ const NewScene = () => {
       `You placed ${currentItem.name} in ${boxName}. ${currentItem.storage_tip}`
     )
     setCurrentItemIndex((prevIndex) => prevIndex + 1)
-    setTimeout(() => setPopupMessage(null), 1500)
+
+    // Check if all items have been placed
+    if (currentItemIndex + 1 >= items.length) {
+      setTimeout(() => {
+        setGameOver(true) // Trigger game over popup
+      }, 1500)
+    } else {
+      setTimeout(() => setPopupMessage(null), 1500)
+    }
+  }
+
+  const handleRestart = () => {
+    navigate("/") // Redirect back to the ingredient selection screen
   }
 
   const capitalizeFirstLetter = (string) =>
@@ -108,7 +122,6 @@ const NewScene = () => {
       }}
     >
       <div className="scene-wrapper">
-        {/* Fixed Item Name at the Top Center */}
         {currentItemIndex < items.length && (
           <div className="item-name">
             <p>{capitalizeFirstLetter(items[currentItemIndex].name)}</p>
@@ -116,17 +129,15 @@ const NewScene = () => {
         )}
 
         <div className="scene-container">
-          {/* Backdrop */}
           <div className="backdrop"></div>
 
-          {/* Boxes */}
           <Droppable
             name="Pantry"
             style={{
-              bottom: "35%",
-              left: "80%",
-              width: "18vw",
-              height: "18vw",
+              bottom: "30%",
+              left: "0%",
+              width: "13vw",
+              height: "13vw",
             }}
             onDrop={handleDrop}
           />
@@ -134,9 +145,9 @@ const NewScene = () => {
             name="Fridge"
             style={{
               bottom: "5%",
-              left: "47%",
-              width: "35vw",
-              height: "35vw",
+              left: "17%",
+              width: "30vw",
+              height: "30vw",
             }}
             onDrop={handleDrop}
           />
@@ -144,7 +155,7 @@ const NewScene = () => {
             name="Freezer"
             style={{
               bottom: "5%",
-              left: "30%",
+              left: "50%",
               width: "20vw",
               height: "20vw",
             }}
@@ -154,14 +165,13 @@ const NewScene = () => {
             name="Countertop"
             style={{
               bottom: "0%",
-              left: "0%",
-              width: "28vw",
-              height: "28vw",
+              left: "75%",
+              width: "25vw",
+              height: "25vw",
             }}
             onDrop={handleDrop}
           />
 
-          {/* Draggable Item */}
           {currentItemIndex < items.length && (
             <Draggable item={items[currentItemIndex]} />
           )}
@@ -187,14 +197,29 @@ const NewScene = () => {
                 </motion.div>
               </motion.div>
             )}
-          </AnimatePresence>
 
-          {/* Message when all items are placed */}
-          {currentItemIndex >= items.length && (
-            <div className="message">
-              <p>All items have been placed!</p>
-            </div>
-          )}
+            {/* Game Over Popup */}
+            {gameOver && (
+              <motion.div
+                className="popup-overlay"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <motion.div
+                  className="popup-content"
+                  initial={{ y: "-50%", opacity: 0 }}
+                  animate={{ y: "0%", opacity: 1 }}
+                  exit={{ y: "-50%", opacity: 0 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <p>All items have been placed!</p>
+                  <button onClick={handleRestart}>Restart Game</button>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </DndContext>
