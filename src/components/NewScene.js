@@ -14,6 +14,7 @@ const Draggable = ({ item }) => {
   const style = {
     transform: CSS.Translate.toString(transform || { x: 0, y: 0 }),
     opacity: isDragging ? 0.5 : 1,
+    cursor: "grab",
   }
 
   return (
@@ -34,7 +35,6 @@ const Droppable = ({ name, style, onDrop }) => {
     id: name,
   })
 
-  // Map box names to image files stored in the public folder
   const boxImages = {
     Pantry: "/pantry.png",
     Fridge: "/fridge3.png",
@@ -48,15 +48,15 @@ const Droppable = ({ name, style, onDrop }) => {
       className="box-container"
       style={{
         ...style,
-        backgroundColor: "transparent", // Removed blue background change
+        backgroundColor: "transparent",
         backgroundImage: `url(${boxImages[name]})`,
         backgroundSize: "contain",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        cursor: "pointer", // Change cursor when hovering over the box
+        cursor: "pointer",
       }}
-      animate={isOver ? { scale: 1.1 } : { scale: 1 }} // Apply scale animation on drop
-      whileHover={{ scale: 1.1 }}
+      animate={isOver ? { scale: 1.1 } : { scale: 1 }} // Animation grows when item is dragged over
+      whileHover={{ scale: 1.1 }} // Animation grows when hovered over
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       onClick={() => onDrop(name)}
     />
@@ -65,7 +65,7 @@ const Droppable = ({ name, style, onDrop }) => {
 
 const NewScene = () => {
   const location = useLocation()
-  const [items, setItems] = useState(location.state?.items || []) // Items passed from GameBoard
+  const [items, setItems] = useState(location.state?.items || [])
   const [currentItemIndex, setCurrentItemIndex] = useState(0)
   const [popupMessage, setPopupMessage] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -94,6 +94,9 @@ const NewScene = () => {
     setTimeout(() => setPopupMessage(null), 1500)
   }
 
+  const capitalizeFirstLetter = (string) =>
+    string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+
   return (
     <DndContext
       onDragStart={() => setIsDragging(true)}
@@ -105,6 +108,13 @@ const NewScene = () => {
       }}
     >
       <div className="scene-wrapper">
+        {/* Fixed Item Name at the Top Center */}
+        {currentItemIndex < items.length && (
+          <div className="item-name">
+            <p>{capitalizeFirstLetter(items[currentItemIndex].name)}</p>
+          </div>
+        )}
+
         <div className="scene-container">
           {/* Backdrop */}
           <div className="backdrop"></div>
@@ -114,7 +124,7 @@ const NewScene = () => {
             name="Pantry"
             style={{
               bottom: "35%",
-              left: "0%",
+              left: "80%",
               width: "18vw",
               height: "18vw",
             }}
@@ -123,8 +133,8 @@ const NewScene = () => {
           <Droppable
             name="Fridge"
             style={{
-              bottom: "10%",
-              left: "45%",
+              bottom: "5%",
+              left: "47%",
               width: "35vw",
               height: "35vw",
             }}
@@ -133,26 +143,25 @@ const NewScene = () => {
           <Droppable
             name="Freezer"
             style={{
-              bottom: "10%",
-              left: "25%",
+              bottom: "5%",
+              left: "30%",
               width: "20vw",
               height: "20vw",
             }}
             onDrop={handleDrop}
           />
-
           <Droppable
             name="Countertop"
             style={{
               bottom: "0%",
-              left: "80%",
+              left: "0%",
               width: "28vw",
               height: "28vw",
             }}
             onDrop={handleDrop}
           />
 
-          {/* Item display lane */}
+          {/* Draggable Item */}
           {currentItemIndex < items.length && (
             <Draggable item={items[currentItemIndex]} />
           )}

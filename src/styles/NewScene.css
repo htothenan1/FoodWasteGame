@@ -42,22 +42,36 @@
 
 .current-item {
   position: absolute;
-  top: 10%;
-  left: 45%;
-  width: 10vw; /* Scales with viewport width */
-  height: 10vw; /* Matches the width for a perfect square */
-  max-width: 120px;
-  max-height: 120px;
-  min-width: 80px;
-  min-height: 80px;
-  aspect-ratio: 1 / 1; /* Perfect square aspect ratio */
+  top: 11%;
+  left: 47%;
+  width: 7vw;
+  height: 7vw;
+  max-width: 80px;
+  max-height: 80px;
+  min-width: 50px;
+  min-height: 50px;
+  aspect-ratio: 1 / 1;
+  transform: translateX(-50%);
 }
 
 .current-item img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 10px;
-  background: none; /* Ensures the image's natural transparency */
   cursor: grab;
+}
+
+.item-name {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2vw; /* Responsive scaling */
+  font-weight: bold;
+  text-align: center;
+  z-index: 1000;
+  white-space: nowrap; /* Prevents wrapping */
+  color: white; /* White text */
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black; /* Black outline effect */
 }
