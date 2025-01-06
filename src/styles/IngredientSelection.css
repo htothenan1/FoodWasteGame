@@ -64,7 +64,7 @@
   justify-content: center;
   gap: 1vw;
   flex-wrap: wrap;
-  margin-top: 1vw;
+  margin: 1vw;
 }
 
 .category-item {
@@ -110,10 +110,9 @@
   border-radius: 10px;
   border: 2px solid #ddd;
   cursor: pointer;
-  /* padding: 0.5vw; */
+  padding: 0.5vw;
   width: 120px;
   height: 130px; /* Fixed height to ensure uniformity */
-  /* aspect-ratio: 1 / 1; */
   transition: transform 0.2s ease, background 0.3s;
   box-sizing: border-box; /* Ensures padding is included in the size */
 }
@@ -126,6 +125,10 @@
   max-width: 60%;
   max-height: 60%;
   object-fit: contain;
+}
+
+.ingredient-item p {
+  text-align: center;
 }
 
 .ingredient-item.selected {

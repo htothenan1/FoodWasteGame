@@ -78,7 +78,7 @@ const NewScene = () => {
   const navigate = useNavigate()
   const { items = [], totalPrice: initialTotalPrice = 0 } = location.state || {}
   const [currentItemIndex, setCurrentItemIndex] = useState(0)
-  const [popupMessage, setPopupMessage] = useState(null)
+  const [popupMessage, setPopupMessage] = useState([])
   const [isDragging, setIsDragging] = useState(false)
   const [popupVisible, setPopupVisible] = useState(false)
   const [gameOver, setGameOver] = useState(false)
@@ -112,24 +112,22 @@ const NewScene = () => {
 
     if (currentItem.home.includes(boxName)) {
       correctHomeSound.play()
-      setPopupMessage(
+      setPopupMessage([
         `That's correct, ${currentItem.name} can be stored ${
           boxName === "Countertop" ? "on" : "in"
-        } the ${unCapitalizeFirstLetter(boxName)}! ${currentItem.storage_tip} ${
-          currentItem.whyEat
-        }`
-      )
+        } the ${unCapitalizeFirstLetter(boxName)}!`,
+        `Pro Tip: ${currentItem.storage_tip}`,
+      ])
     } else {
       setTotalPrice((prevTotal) => prevTotal - currentItem.price) // Decrease price when incorrect
       setAmountLost((prevLost) => prevLost + currentItem.price) // Track lost amount
       incorrectHomeSound.play()
-      setPopupMessage(
+      setPopupMessage([
         `Oops, wrong choice! You shouldn't store ${currentItem.name} ${
           boxName === "Countertop" ? "on" : "in"
-        } the ${unCapitalizeFirstLetter(boxName)}. ${currentItem.storage_tip} ${
-          currentItem.whyEat
-        }`
-      )
+        } the ${unCapitalizeFirstLetter(boxName)}.`,
+        `Pro Tip: ${currentItem.storage_tip}`,
+      ])
     }
 
     setPopupVisible(true)
@@ -250,7 +248,8 @@ const NewScene = () => {
                   exit={{ y: "-50%", opacity: 0 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
-                  <p>{popupMessage}</p>
+                  <p>{popupMessage[0]}</p>
+                  <p>{popupMessage[1]}</p>
                   <p className="tap-continue">Tap anywhere to continue</p>
                 </motion.div>
               </motion.div>
@@ -274,7 +273,7 @@ const NewScene = () => {
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   <p>All items have been placed!</p>
-                  <p>Total Money Lost: {calculateLossPercentage()}%</p>
+                  <p>Total Money Lost: ${amountLost.toFixed(2)}</p>
                   <p className="tap-continue">Tap anywhere to restart</p>
                 </motion.div>
               </motion.div>
