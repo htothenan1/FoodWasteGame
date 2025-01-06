@@ -3,6 +3,7 @@ import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { TouchBackend } from "react-dnd-touch-backend"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import LandingPage from "./components/LandingPage"
 import IngredientSelection from "./components/IngredientSelection"
 import GameBoard from "./components/GameBoard"
 import NewScene from "./components/NewScene"
@@ -27,14 +28,17 @@ function App() {
 
   return (
     <DndProvider
-      backend={isTouchDevice() ? TouchBackend : HTML5Backend} // Dynamically select backend
-      options={isTouchDevice() ? { enableMouseEvents: true } : undefined} // Enable mouse events for touch devices
+      backend={isTouchDevice() ? TouchBackend : HTML5Backend}
+      options={isTouchDevice() ? { enableMouseEvents: true } : undefined}
     >
       <Router>
         <Routes>
+          {/* New Landing Page as the starting screen */}
+          <Route path="/" element={<LandingPage />} />
+
           {/* Ingredient Selection */}
           <Route
-            path="/"
+            path="/ingredient-selection"
             element={<IngredientSelection onStartGame={handleStartGame} />}
           />
 

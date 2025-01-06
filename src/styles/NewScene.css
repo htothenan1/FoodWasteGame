@@ -75,3 +75,67 @@
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
     1px 1px 0 black; /* Black outline effect */
 }
+
+.pantry-name {
+  position: absolute;
+  top: 45%;
+  left: 92%;
+  transform: translateX(-50%);
+  font-size: 2vw; /* Responsive scaling */
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  z-index: 1000;
+  white-space: nowrap; /* Prevents wrapping */
+  color: white; /* White text */
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black; /* Black outline effect */
+}
+
+.fridge-name {
+  position: absolute;
+  top: 55%;
+  left: 68%;
+  transform: translateX(-50%);
+  font-size: 2vw; /* Responsive scaling */
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  z-index: 1000;
+  white-space: nowrap; /* Prevents wrapping */
+  color: white; /* White text */
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black; /* Black outline effect */
+}
+
+.freezer-name {
+  position: absolute;
+  top: 69%;
+  left: 45%;
+  transform: translateX(-50%);
+  font-size: 2vw; /* Responsive scaling */
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  z-index: 1000;
+  white-space: nowrap; /* Prevents wrapping */
+  color: white; /* White text */
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black; /* Black outline effect */
+}
+
+.countertop-name {
+  position: absolute;
+  top: 70%;
+  left: 12%;
+  cursor: pointer;
+  transform: translateX(-50%);
+  font-size: 2vw; /* Responsive scaling */
+  font-weight: bold;
+  text-align: center;
+  z-index: 1000;
+  white-space: nowrap; /* Prevents wrapping */
+  color: white; /* White text */
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black; /* Black outline effect */
+}

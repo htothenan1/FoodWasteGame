@@ -6,9 +6,13 @@ import { CSS } from "@dnd-kit/utilities"
 import { motion, AnimatePresence } from "framer-motion"
 import "../styles/NewScene.css"
 
-const placeItemSound = new Howl({
+const correctHomeSound = new Howl({
   src: ["/sounds/ding.wav"],
   volume: 0.5,
+})
+
+const incorrectHomeSound = new Howl({
+  src: ["/sounds/wrong.mp3"],
 })
 
 const Draggable = ({ item }) => {
@@ -65,19 +69,21 @@ const Droppable = ({ name, style, onDrop }) => {
       whileHover={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       onClick={() => onDrop(name)}
-    />
+    ></motion.div>
   )
 }
 
 const NewScene = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { items = [], totalPrice = 0 } = location.state || {}
+  const { items = [], totalPrice: initialTotalPrice = 0 } = location.state || {}
   const [currentItemIndex, setCurrentItemIndex] = useState(0)
   const [popupMessage, setPopupMessage] = useState(null)
   const [isDragging, setIsDragging] = useState(false)
   const [popupVisible, setPopupVisible] = useState(false)
   const [gameOver, setGameOver] = useState(false)
+  const [totalPrice, setTotalPrice] = useState(initialTotalPrice)
+  const [amountLost, setAmountLost] = useState(0) // To track lost amount
 
   useEffect(() => {
     const handleTouchMove = (e) => {
@@ -95,17 +101,37 @@ const NewScene = () => {
   const unCapitalizeFirstLetter = (string) =>
     string.charAt(0).toLowerCase() + string.slice(1).toLowerCase()
 
+  const calculateLossPercentage = () => {
+    const percentageLost = (amountLost / initialTotalPrice) * 100
+    return percentageLost.toFixed(2)
+  }
+
   const handleDrop = (boxName) => {
     const currentItem = items[currentItemIndex]
     if (!currentItem) return
 
-    placeItemSound.play()
+    if (currentItem.home.includes(boxName)) {
+      correctHomeSound.play()
+      setPopupMessage(
+        `That's correct, ${currentItem.name} can be stored ${
+          boxName === "Countertop" ? "on" : "in"
+        } the ${unCapitalizeFirstLetter(boxName)}! ${currentItem.storage_tip} ${
+          currentItem.whyEat
+        }`
+      )
+    } else {
+      setTotalPrice((prevTotal) => prevTotal - currentItem.price) // Decrease price when incorrect
+      setAmountLost((prevLost) => prevLost + currentItem.price) // Track lost amount
+      incorrectHomeSound.play()
+      setPopupMessage(
+        `Oops, wrong choice! You shouldn't store ${currentItem.name} ${
+          boxName === "Countertop" ? "on" : "in"
+        } the ${unCapitalizeFirstLetter(boxName)}. ${currentItem.storage_tip} ${
+          currentItem.whyEat
+        }`
+      )
+    }
 
-    setPopupMessage(
-      `You placed ${currentItem.name} in the ${unCapitalizeFirstLetter(
-        boxName
-      )}. ${currentItem.storage_tip}`
-    )
     setPopupVisible(true)
   }
 
@@ -137,7 +163,8 @@ const NewScene = () => {
       }}
     >
       <div className="scene-wrapper">
-        {currentItemIndex < items.length && (
+        {/* Item name is hidden when popup is visible */}
+        {currentItemIndex < items.length && !popupVisible && (
           <div className="item-name">
             <p>{capitalizeFirstLetter(items[currentItemIndex].name)}</p>
           </div>
@@ -146,41 +173,54 @@ const NewScene = () => {
         <div className="scene-container">
           <div className="backdrop"></div>
 
+          {/* Compartment titles and drop areas */}
+          <div className="pantry-name">
+            <p>Pantry</p>
+          </div>
           <Droppable
             name="Pantry"
             style={{
-              bottom: "30%",
-              left: "0%",
+              bottom: "35%",
+              left: "85%",
               width: "13vw",
               height: "13vw",
             }}
             onDrop={handleDrop}
           />
+          <div className="fridge-name">
+            <p>Fridge</p>
+          </div>
           <Droppable
             name="Fridge"
             style={{
               bottom: "5%",
-              left: "17%",
+              left: "55%",
               width: "30vw",
               height: "30vw",
             }}
             onDrop={handleDrop}
           />
+          <div className="freezer-name">
+            <p>Freezer</p>
+          </div>
           <Droppable
             name="Freezer"
             style={{
               bottom: "5%",
-              left: "50%",
+              left: "35%",
               width: "20vw",
               height: "20vw",
             }}
             onDrop={handleDrop}
           />
+          <div className="countertop-name">
+            <p>Countertop</p>
+          </div>
           <Droppable
             name="Countertop"
             style={{
-              bottom: "0%",
-              left: "75%",
+              bottom: "-5%",
+              left: "2%",
               width: "25vw",
               height: "25vw",
             }}
@@ -188,7 +228,7 @@ const NewScene = () => {
           />
 
           {/* Draggable Item */}
-          {currentItemIndex < items.length && (
+          {currentItemIndex < items.length && !popupVisible && (
             <Draggable item={items[currentItemIndex]} />
           )}
 
@@ -234,6 +274,7 @@ const NewScene = () => {
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   <p>All items have been placed!</p>
+                  <p>Total Money Lost: {calculateLossPercentage()}%</p>
                   <p className="tap-continue">Tap anywhere to restart</p>
                 </motion.div>
               </motion.div>
