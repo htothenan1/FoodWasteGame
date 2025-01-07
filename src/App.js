@@ -32,8 +32,8 @@ function App() {
       backend={isTouchDevice() ? TouchBackend : HTML5Backend}
       options={isTouchDevice() ? { enableMouseEvents: true } : undefined}
     >
-      <Analytics />
       <Router>
+        <Analytics />
         <Routes>
           {/* New Landing Page as the starting screen */}
           <Route path="/" element={<LandingPage />} />
