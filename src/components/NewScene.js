@@ -166,17 +166,15 @@ const NewScene = () => {
       }}
     >
       <div className="scene-wrapper">
-        {/* Item name is hidden when popup is visible */}
-        {currentItemIndex < items.length && !popupVisible && (
-          <div className="item-name">
-            <p>{capitalizeFirstLetter(items[currentItemIndex].name)}</p>
-          </div>
-        )}
-
         <div className="scene-container">
           <div className="backdrop"></div>
+          {currentItemIndex < items.length && !popupVisible && (
+            <div className="item-name">
+              <p>{capitalizeFirstLetter(items[currentItemIndex].name)}</p>
+            </div>
+          )}
           <div className="instructions">
-            <p>Drag item into correct home</p>
+            <p>Drag each item into its correct home</p>
           </div>
 
           {/* Compartment titles and drop areas */}
