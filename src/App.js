@@ -3,6 +3,7 @@ import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import { TouchBackend } from "react-dnd-touch-backend"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { Analytics } from "@vercel/analytics/react"
 import LandingPage from "./components/LandingPage"
 import IngredientSelection from "./components/IngredientSelection"
 import GameBoard from "./components/GameBoard"
@@ -31,6 +32,7 @@ function App() {
       backend={isTouchDevice() ? TouchBackend : HTML5Backend}
       options={isTouchDevice() ? { enableMouseEvents: true } : undefined}
     >
+      <Analytics />
       <Router>
         <Routes>
           {/* New Landing Page as the starting screen */}
