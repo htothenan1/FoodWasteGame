@@ -48,13 +48,13 @@
 }
 
 .ingredient-title {
-  font-size: 4vw;
-  margin: 0;
+  font-size: 2.5vw;
+  /* margin: 0; */
 }
 
 .total-price {
   font-size: 2vw;
-  margin-top: 1vw;
+  /* margin-top: 1vw; */
   color: #4caf50;
 }
 
@@ -91,7 +91,7 @@
 /* Ingredient Grid Styling */
 .ingredient-list {
   display: grid;
-  grid-template-columns: repeat(7, 1fr); /* Fixed 6 items per row */
+  grid-template-columns: repeat(6, 1fr); /* Fixed 6 items per row */
   gap: 1vw;
   padding: 2vw;
   border-radius: 20px;

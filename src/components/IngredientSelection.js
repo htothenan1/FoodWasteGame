@@ -1,6 +1,19 @@
 import React, { useState } from "react"
 import { Howl } from "howler"
 import { useNavigate } from "react-router-dom"
+import {
+  IconLeaf,
+  IconApple,
+  IconMeat,
+  IconMilk,
+  IconGrain,
+  IconFish,
+  IconNut,
+  IconTipJarEuro,
+  IconBottle,
+  IconPepper,
+  IconEggs,
+} from "@tabler/icons-react"
 import { ingredients } from "../data/ingredients"
 import "../styles/IngredientSelection.css"
 
@@ -14,14 +27,25 @@ const swishSound = new Howl({
   volume: 0.5,
 })
 
+const categories = [
+  { name: "vegetables", icon: <IconLeaf color="white" /> },
+  { name: "fruits", icon: <IconApple color="white" /> },
+  { name: "meats", icon: <IconMeat color="white" /> },
+  { name: "dairy", icon: <IconMilk color="white" /> },
+  { name: "grains", icon: <IconGrain color="white" /> },
+  { name: "seafoods", icon: <IconFish color="white" /> },
+  { name: "legumes", icon: <IconEggs color="white" /> },
+  { name: "nuts and seeds", icon: <IconNut color="white" /> },
+  { name: "canned goods", icon: <IconTipJarEuro color="white" /> },
+  { name: "spices and herbs", icon: <IconPepper color="white" /> },
+  { name: "oils", icon: <IconBottle color="white" /> },
+]
+
 const IngredientSelectionScreen = ({ onStartGame }) => {
   const [selectedIngredients, setSelectedIngredients] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
   const [activeCategory, setActiveCategory] = useState("vegetables")
   const navigate = useNavigate()
-
-  const capitalizeFirstLetter = (string) =>
-    string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
 
   const toggleIngredient = (ingredient) => {
     const isSelected = selectedIngredients.includes(ingredient)
@@ -53,23 +77,14 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
       ingredient.category.toLowerCase() === activeCategory.toLowerCase()
   )
 
-  const categories = Array.from(
-    new Set(
-      ingredients.map((ingredient) =>
-        capitalizeFirstLetter(ingredient.category)
-      )
-    )
-  )
-
   return (
     <div className="scene-wrapper">
-      {/* Main container with consistent aspect ratio and background */}
       <div className="scene-container">
         <div className="backdrop"></div>
 
         {/* Title and Total Price */}
         <div className="ingredient-title-container">
-          <h1 className="ingredient-title">Select Your Ingredients</h1>
+          <h1 className="ingredient-title">Select Your Ingredients({})</h1>
           <div className="button-group">
             <button onClick={() => navigate("/")} className="randomize-button">
               Back to Home
@@ -82,25 +97,25 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
               Proceed to Kitchen
             </button>
           </div>
-          <p className="total-price">Total: ${totalPrice.toFixed(2)}</p>
+          {/* <p className="total-price">Total: ${totalPrice.toFixed(2)}</p> */}
         </div>
 
-        {/* Category Bar */}
+        {/* Category Bar with Icons */}
         <div className="ingredient-categories">
-          {categories.map((category) => (
+          {categories.map(({ name, icon }) => (
             <div
-              key={category}
+              key={name}
               className={`category-item ${
-                activeCategory.toLowerCase() === category.toLowerCase()
+                activeCategory.toLowerCase() === name.toLowerCase()
                   ? "active"
                   : ""
               }`}
               onClick={() => {
                 clickSound.play()
-                setActiveCategory(category)
+                setActiveCategory(name)
               }}
             >
-              {category}
+              {icon}
             </div>
           ))}
         </div>
@@ -116,7 +131,7 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
               onClick={() => toggleIngredient(ingredient)}
             >
               <img src={ingredient.img} alt={ingredient.name} />
-              <p>{capitalizeFirstLetter(ingredient.name)}</p>
+              <p>{ingredient.name}</p>
             </div>
           ))}
         </div>
