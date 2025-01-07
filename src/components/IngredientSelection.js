@@ -40,7 +40,6 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
   }
 
   const handleProceed = () => {
-    swishSound.play()
     navigate("/new-scene", {
       state: {
         items: selectedIngredients,
@@ -71,6 +70,18 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
         {/* Title and Total Price */}
         <div className="ingredient-title-container">
           <h1 className="ingredient-title">Select Your Ingredients</h1>
+          <div className="button-group">
+            <button onClick={() => navigate("/")} className="randomize-button">
+              Back to Home
+            </button>
+            <button
+              onClick={handleProceed}
+              disabled={selectedIngredients.length === 0}
+              className="proceed-button"
+            >
+              Proceed to Kitchen
+            </button>
+          </div>
           <p className="total-price">Total: ${totalPrice.toFixed(2)}</p>
         </div>
 
@@ -84,7 +95,10 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
                   ? "active"
                   : ""
               }`}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => {
+                clickSound.play()
+                setActiveCategory(category)
+              }}
             >
               {category}
             </div>
@@ -105,20 +119,6 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
               <p>{capitalizeFirstLetter(ingredient.name)}</p>
             </div>
           ))}
-        </div>
-
-        {/* Action Buttons */}
-        <div className="button-group">
-          <button onClick={() => navigate("/")} className="randomize-button">
-            Back to Home
-          </button>
-          <button
-            onClick={handleProceed}
-            disabled={selectedIngredients.length === 0}
-            className="proceed-button"
-          >
-            Proceed to Kitchen
-          </button>
         </div>
       </div>
     </div>

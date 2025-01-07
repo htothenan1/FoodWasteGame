@@ -40,7 +40,7 @@
 .ingredient-title-container {
   text-align: center;
   background: rgba(0, 0, 0, 0.6);
-  padding: 1vw;
+  padding: 0.5vw;
   border-radius: 15px;
   color: white;
   text-shadow: 2px 2px 4px black;
@@ -68,7 +68,7 @@
 }
 
 .category-item {
-  padding: 1vw 2vw;
+  padding: 1vw 1vw;
   border-radius: 15px;
   background: #4caf50;
   color: white;
@@ -91,7 +91,7 @@
 /* Ingredient Grid Styling */
 .ingredient-list {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* Fixed 6 items per row */
+  grid-template-columns: repeat(7, 1fr); /* Fixed 6 items per row */
   gap: 1vw;
   padding: 2vw;
   border-radius: 20px;
@@ -141,13 +141,13 @@
 .button-group {
   display: flex;
   justify-content: center;
-  gap: 2vw;
-  padding: 2vw;
+  gap: 1vw;
+  padding: 1vw;
 }
 
 .proceed-button,
 .randomize-button {
-  padding: 1vw 2vw;
+  padding: 1vw 1vw;
   border-radius: 15px;
   border: none;
   cursor: pointer;
@@ -177,7 +177,7 @@
 @media (max-width: 768px) {
   .ingredient-list {
     grid-template-columns: repeat(
-      3,
+      4,
       1fr
     ); /* 3 items per row for smaller screens */
   }

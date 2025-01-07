@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom"
 import { Howl } from "howler"
 import "../styles/LandingPage.css"
 
-const clickSound = new Howl({
-  src: ["/sounds/click.wav"],
+const swishSound = new Howl({
+  src: ["/sounds/swish.mp3"],
   volume: 0.5,
 })
 
@@ -12,7 +12,7 @@ const LandingPage = () => {
   const navigate = useNavigate()
 
   const handlePlayNow = () => {
-    clickSound.play()
+    swishSound.play()
     navigate("/ingredient-selection")
   }
 

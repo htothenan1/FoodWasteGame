@@ -29,6 +29,10 @@
   z-index: -1;
 }
 
+.popup-overlay {
+  cursor: pointer;
+}
+
 .box-container {
   position: absolute;
   border-radius: 10px;
@@ -138,4 +142,14 @@
   color: white; /* White text */
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
     1px 1px 0 black; /* Black outline effect */
+}
+
+.success-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-left: 3px;
+}
+
+.tap-continue {
+  font-weight: bold;
 }

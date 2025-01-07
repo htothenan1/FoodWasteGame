@@ -3,6 +3,7 @@ import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Howl } from "howler"
 import { CSS } from "@dnd-kit/utilities"
+import { IconCheck, IconX } from "@tabler/icons-react"
 import { motion, AnimatePresence } from "framer-motion"
 import "../styles/NewScene.css"
 
@@ -13,6 +14,10 @@ const correctHomeSound = new Howl({
 
 const incorrectHomeSound = new Howl({
   src: ["/sounds/wrong.mp3"],
+})
+
+const gameStartSound = new Howl({
+  src: ["/sounds/start.wav"],
 })
 
 const Draggable = ({ item }) => {
@@ -98,6 +103,10 @@ const NewScene = () => {
     }
   }, [isDragging])
 
+  useEffect(() => {
+    gameStartSound.play()
+  }, [])
+
   const unCapitalizeFirstLetter = (string) =>
     string.charAt(0).toLowerCase() + string.slice(1).toLowerCase()
 
@@ -113,9 +122,7 @@ const NewScene = () => {
     if (currentItem.home.includes(boxName)) {
       correctHomeSound.play()
       setPopupMessage([
-        `That's correct, ${currentItem.name} can be stored ${
-          boxName === "Countertop" ? "on" : "in"
-        } the ${unCapitalizeFirstLetter(boxName)}!`,
+        `That's correct!`,
         `Pro Tip: ${currentItem.storage_tip}`,
       ])
     } else {
@@ -123,9 +130,7 @@ const NewScene = () => {
       setAmountLost((prevLost) => prevLost + currentItem.price) // Track lost amount
       incorrectHomeSound.play()
       setPopupMessage([
-        `Oops, wrong choice! You shouldn't store ${currentItem.name} ${
-          boxName === "Countertop" ? "on" : "in"
-        } the ${unCapitalizeFirstLetter(boxName)}.`,
+        `Oops, wrong choice!`,
         `Pro Tip: ${currentItem.storage_tip}`,
       ])
     }
@@ -248,8 +253,21 @@ const NewScene = () => {
                   exit={{ y: "-50%", opacity: 0 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
-                  <p>{popupMessage[0]}</p>
-                  <p>{popupMessage[1]}</p>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    {popupMessage[0] === `That's correct!` ? (
+                      <IconCheck color="black" />
+                    ) : (
+                      <IconX color="black" />
+                    )}
+                    <p className="success-title">{popupMessage[0]}</p>
+                  </div>
+                  <p className="storage-tip">{popupMessage[1]}</p>
                   <p className="tap-continue">Tap anywhere to continue</p>
                 </motion.div>
               </motion.div>
