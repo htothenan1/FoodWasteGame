@@ -63,6 +63,9 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
     }
   }
 
+  const capitalizeFirstLetter = (string) =>
+    string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+
   const handleProceed = () => {
     navigate("/new-scene", {
       state: {
@@ -85,7 +88,7 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
         {/* Title and Total Price */}
         <div className="ingredient-title-container">
           <h1 className="ingredient-title">
-            Select Your Ingredients({selectedIngredients.length})
+            Select Your Ingredients ({selectedIngredients.length})
           </h1>
           <div className="button-group">
             <button onClick={() => navigate("/")} className="randomize-button">
@@ -133,7 +136,7 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
               onClick={() => toggleIngredient(ingredient)}
             >
               <img src={ingredient.img} alt={ingredient.name} />
-              <p>{ingredient.name}</p>
+              <p>{capitalizeFirstLetter(ingredient.name)}</p>
             </div>
           ))}
         </div>

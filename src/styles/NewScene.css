@@ -46,7 +46,7 @@
 
 .current-item {
   position: absolute;
-  top: 11%;
+  top: 20%;
   left: 47%;
   width: 7vw;
   height: 7vw;
@@ -67,7 +67,7 @@
 
 .item-name {
   position: absolute;
-  top: 10px;
+  top: 40px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 2vw; /* Responsive scaling */
@@ -152,4 +152,20 @@
 
 .tap-continue {
   font-weight: bold;
+}
+
+.instructions {
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2vw; /* Responsive scaling */
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  z-index: 1000;
+  white-space: nowrap; /* Prevents wrapping */
+  color: white; /* White text */
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
+    1px 1px 0 black; /* Black outline effect */
 }

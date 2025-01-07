@@ -175,6 +175,9 @@ const NewScene = () => {
 
         <div className="scene-container">
           <div className="backdrop"></div>
+          <div className="instructions">
+            <p>Drag item into correct home</p>
+          </div>
 
           {/* Compartment titles and drop areas */}
           <div className="pantry-name">

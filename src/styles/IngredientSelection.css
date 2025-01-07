@@ -49,7 +49,7 @@
 
 .ingredient-title {
   font-size: 2.5vw;
-  /* margin: 0; */
+  margin: 0;
 }
 
 .total-price {
@@ -105,12 +105,12 @@
 .ingredient-item {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centers both image and text */
+  justify-content: end; /* Centers both image and text */
   align-items: center;
   border-radius: 10px;
   border: 2px solid #ddd;
   cursor: pointer;
-  padding: 0.5vw;
+  /* padding: 0.5vw; */
   width: 120px;
   height: 130px; /* Fixed height to ensure uniformity */
   transition: transform 0.2s ease, background 0.3s;
@@ -122,8 +122,8 @@
 }
 
 .ingredient-item img {
-  max-width: 60%;
-  max-height: 60%;
+  max-width: 50%;
+  max-height: 50%;
   object-fit: contain;
 }
 
@@ -177,22 +177,19 @@
 @media (max-width: 868px) {
   .ingredient-list {
     grid-template-columns: repeat(
-      4,
+      3,
       1fr
     ); /* 3 items per row for smaller screens */
   }
 
   .ingredient-item {
     display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centers both image and text */
     align-items: center;
+    justify-content: end;
     border-radius: 10px;
     border: 2px solid #ddd;
     cursor: pointer;
-    padding: 0.5vw;
-    width: 90px;
-    height: 95px; /* Fixed height to ensure uniformity */
+    /* padding: 1vw; */
     transition: transform 0.2s ease, background 0.3s;
     box-sizing: border-box; /* Ensures padding is included in the size */
   }
