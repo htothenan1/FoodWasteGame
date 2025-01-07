@@ -174,11 +174,26 @@
   transform: scale(1.1);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 868px) {
   .ingredient-list {
     grid-template-columns: repeat(
       4,
       1fr
     ); /* 3 items per row for smaller screens */
+  }
+
+  .ingredient-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers both image and text */
+    align-items: center;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    padding: 0.5vw;
+    width: 90px;
+    height: 95px; /* Fixed height to ensure uniformity */
+    transition: transform 0.2s ease, background 0.3s;
+    box-sizing: border-box; /* Ensures padding is included in the size */
   }
 }
