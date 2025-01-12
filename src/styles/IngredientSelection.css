@@ -90,31 +90,32 @@
 
 /* Ingredient Grid Styling */
 .ingredient-list {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr); /* Fixed 6 items per row */
-  gap: 1vw;
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap onto the next line */
+  gap: 1vw; /* Spacing between items */
   padding: 2vw;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  flex: 1;
+  overflow-y: auto; /* Enables scrolling for many items */
+  justify-content: center; /* Center-aligns items for better aesthetics */
 }
 
 /* Ingredient Item Styling */
 .ingredient-item {
+  flex: 1 1 calc(16.66% - 1vw); /* Responsive width: roughly 6 items per row with gap adjustment */
+  max-width: 150px; /* Ensures items don't grow too large */
+  min-width: 100px; /* Ensures items don't shrink too much */
+  height: 130px; /* Fixed height for uniformity */
   display: flex;
   flex-direction: column;
-  justify-content: end; /* Centers both image and text */
+  justify-content: center; /* Centers both image and text */
   align-items: center;
   border-radius: 10px;
   border: 2px solid #ddd;
   cursor: pointer;
-  /* padding: 0.5vw; */
-  width: 120px;
-  height: 130px; /* Fixed height to ensure uniformity */
   transition: transform 0.2s ease, background 0.3s;
-  box-sizing: border-box; /* Ensures padding is included in the size */
+  box-sizing: border-box; /* Includes padding and border in size */
 }
 
 .ingredient-item:hover {
@@ -122,8 +123,8 @@
 }
 
 .ingredient-item img {
-  max-width: 50%;
-  max-height: 50%;
+  max-width: 60%;
+  max-height: 60%;
   object-fit: contain;
 }
 
@@ -172,25 +173,4 @@
 .randomize-button:hover {
   background: #0056b3;
   transform: scale(1.1);
-}
-
-@media (max-width: 868px) {
-  .ingredient-list {
-    grid-template-columns: repeat(
-      3,
-      1fr
-    ); /* 3 items per row for smaller screens */
-  }
-
-  .ingredient-item {
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    border-radius: 10px;
-    border: 2px solid #ddd;
-    cursor: pointer;
-    /* padding: 1vw; */
-    transition: transform 0.2s ease, background 0.3s;
-    box-sizing: border-box; /* Ensures padding is included in the size */
-  }
 }
