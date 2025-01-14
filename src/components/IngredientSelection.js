@@ -19,12 +19,12 @@ import "../styles/IngredientSelection.css"
 
 const clickSound = new Howl({
   src: ["/sounds/click.wav"],
-  volume: 0.5,
+  volume: 0.1,
 })
 
 const swishSound = new Howl({
   src: ["/sounds/swish.mp3"],
-  volume: 0.5,
+  volume: 0.1,
 })
 
 const categories = [
@@ -88,7 +88,7 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
         {/* Title and Total Price */}
         <div className="ingredient-title-container">
           <h1 className="ingredient-title">
-            Select Your Ingredients ({selectedIngredients.length})
+            Select up to 10 Ingredients ({selectedIngredients.length})
           </h1>
           <div className="button-group">
             <button onClick={() => navigate("/")} className="randomize-button">

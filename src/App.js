@@ -8,6 +8,7 @@ import LandingPage from "./components/LandingPage"
 import IngredientSelection from "./components/IngredientSelection"
 import GameBoard from "./components/GameBoard"
 import NewScene from "./components/NewScene"
+import "./styles/App.css"
 
 function App() {
   const [selectedIngredients, setSelectedIngredients] = useState([])
@@ -28,38 +29,43 @@ function App() {
   }
 
   return (
-    <DndProvider
-      backend={isTouchDevice() ? TouchBackend : HTML5Backend}
-      options={isTouchDevice() ? { enableMouseEvents: true } : undefined}
-    >
-      <Router>
-        <Analytics />
-        <Routes>
-          {/* New Landing Page as the starting screen */}
-          <Route path="/" element={<LandingPage />} />
+    <>
+      {/* Rotate Phone Warning Overlay */}
+      <div className="rotate-overlay">
+        <img
+          src="/assets/air_art.png"
+          alt="Rotate your phone"
+          className="rotate-icon"
+        />
+        <p>Please rotate your device to landscape mode!</p>
+      </div>
 
-          {/* Ingredient Selection */}
-          <Route
-            path="/ingredient-selection"
-            element={<IngredientSelection onStartGame={handleStartGame} />}
-          />
-
-          {/* Game Board */}
-          <Route
-            path="/game-board"
-            element={
-              <GameBoard
-                selectedIngredients={selectedIngredients}
-                totalPrice={totalPrice}
-              />
-            }
-          />
-
-          {/* New Scene */}
-          <Route path="/new-scene" element={<NewScene />} />
-        </Routes>
-      </Router>
-    </DndProvider>
+      <DndProvider
+        backend={isTouchDevice() ? TouchBackend : HTML5Backend}
+        options={isTouchDevice() ? { enableMouseEvents: true } : undefined}
+      >
+        <Router>
+          <Analytics />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route
+              path="/ingredient-selection"
+              element={<IngredientSelection onStartGame={handleStartGame} />}
+            />
+            <Route
+              path="/game-board"
+              element={
+                <GameBoard
+                  selectedIngredients={selectedIngredients}
+                  totalPrice={totalPrice}
+                />
+              }
+            />
+            <Route path="/new-scene" element={<NewScene />} />
+          </Routes>
+        </Router>
+      </DndProvider>
+    </>
   )
 }
 

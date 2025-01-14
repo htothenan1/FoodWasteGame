@@ -5,7 +5,7 @@ import "../styles/LandingPage.css"
 
 const swishSound = new Howl({
   src: ["/sounds/swish.mp3"],
-  volume: 0.5,
+  volume: 0.1,
 })
 
 const LandingPage = () => {

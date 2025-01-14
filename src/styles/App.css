@@ -9,3 +9,53 @@ body {
   text-align: center;
   padding: 20px;
 }
+
+/* Force landscape mode with rotating phone icon */
+.rotate-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95); /* Dark overlay */
+  z-index: 10000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  pointer-events: all;
+}
+
+/* Rotating phone icon styling */
+.rotate-icon {
+  width: 120px;
+  height: 120px;
+  animation: rotatePhone 2s linear infinite;
+  margin-bottom: 1rem;
+}
+
+/* Keyframes for rotating animation */
+@keyframes rotatePhone {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Force the overlay to show in portrait mode only */
+@media (orientation: portrait) {
+  .rotate-overlay {
+    display: flex;
+  }
+
+  /* Prevent gameplay interaction when portrait */
+  .scene-wrapper {
+    display: none;
+  }
+}

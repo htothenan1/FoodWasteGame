@@ -9,15 +9,17 @@ import "../styles/NewScene.css"
 
 const correctHomeSound = new Howl({
   src: ["/sounds/ding.wav"],
-  volume: 0.5,
+  volume: 0.1,
 })
 
 const incorrectHomeSound = new Howl({
   src: ["/sounds/wrong.mp3"],
+  volume: 0.1,
 })
 
 const gameStartSound = new Howl({
   src: ["/sounds/start.wav"],
+  volume: 0.2,
 })
 
 const Draggable = ({ item }) => {
