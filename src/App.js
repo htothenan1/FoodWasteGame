@@ -8,7 +8,7 @@ import LandingPage from "./components/LandingPage"
 import IngredientSelection from "./components/IngredientSelection"
 import GameBoard from "./components/GameBoard"
 import NewScene from "./components/NewScene"
-import rotateImage from "./assets/air_art.png"
+import rotateImage from "./assets/rotate.png"
 import "./styles/App.css"
 
 function App() {
