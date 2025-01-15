@@ -10,6 +10,7 @@ import GameBoard from "./components/GameBoard"
 import NewScene from "./components/NewScene"
 import rotateImage from "./assets/rotate.png"
 import "./styles/App.css"
+import LevelSelectionScreen from "./components/LevelSelectionScreen"
 
 function App() {
   const [selectedIngredients, setSelectedIngredients] = useState([])
@@ -38,7 +39,7 @@ function App() {
           alt="Rotate your phone"
           className="rotate-icon"
         />
-        <p>Please rotate your device to landscape mode!</p>
+        <p>Please rotate your phone/widen your browser</p>
       </div>
 
       <DndProvider
@@ -53,6 +54,7 @@ function App() {
               path="/ingredient-selection"
               element={<IngredientSelection onStartGame={handleStartGame} />}
             />
+            <Route path="/level-selection" element={<LevelSelectionScreen />} />
             <Route
               path="/game-board"
               element={

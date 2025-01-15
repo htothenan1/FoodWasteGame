@@ -13,7 +13,7 @@ const LandingPage = () => {
 
   const handlePlayNow = () => {
     swishSound.play()
-    navigate("/ingredient-selection")
+    navigate("/level-selection")
   }
 
   return (

@@ -1,0 +1,106 @@
+/* General styling to match the landing page look */
+
+/* Outer Wrapper to maintain aspect ratio */
+.scene-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* The container keeps the aspect ratio consistent */
+.scene-container {
+  position: relative;
+  width: 100%;
+  max-width: 1920px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* Background Image */
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/public/backdrop4.png");
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+
+/* Level Title */
+.level-title {
+  font-size: 3vw;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  margin-bottom: 3vw;
+}
+
+/* Grid to hold the levels with 3 per row */
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3vw;
+  justify-content: center;
+  /* align-items: center; */
+  width: 80%;
+  max-width: 1200px;
+}
+
+/* Individual Level Card Styling */
+.level-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 2vw;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.level-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Level Number Styling */
+.level-number {
+  font-size: 2vw;
+  font-weight: bold;
+  margin-bottom: 1vw;
+}
+
+/* Star Rating (initially not filled) */
+.star-rating {
+  font-size: 2vw;
+  color: #bbb;
+  margin-bottom: 1vw;
+}
+
+/* Play Button Styling */
+.play-level-button {
+  background-color: #4caf50;
+  border: none;
+  border-radius: 15px;
+  padding: 1vw;
+  font-size: 1.5vw;
+  color: white;
+  cursor: grab;
+  transition: background-color 0.3s ease;
+}
+
+.play-level-button:hover {
+  background-color: #388e3c;
+}

@@ -83,7 +83,11 @@ const Droppable = ({ name, style, onDrop }) => {
 const NewScene = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { items = [], totalPrice: initialTotalPrice = 0 } = location.state || {}
+  const {
+    items = [],
+    level,
+    totalPrice: initialTotalPrice = 0,
+  } = location.state || {}
   const [currentItemIndex, setCurrentItemIndex] = useState(0)
   const [popupMessage, setPopupMessage] = useState([])
   const [isDragging, setIsDragging] = useState(false)
@@ -91,6 +95,7 @@ const NewScene = () => {
   const [gameOver, setGameOver] = useState(false)
   const [totalPrice, setTotalPrice] = useState(initialTotalPrice)
   const [amountLost, setAmountLost] = useState(0) // To track lost amount
+  const [correctItemsCount, setCorrectItemsCount] = useState(0) // New State to Track Correct Items
 
   useEffect(() => {
     const handleTouchMove = (e) => {
@@ -109,13 +114,13 @@ const NewScene = () => {
     gameStartSound.play()
   }, [])
 
-  const unCapitalizeFirstLetter = (string) =>
-    string.charAt(0).toLowerCase() + string.slice(1).toLowerCase()
+  // const unCapitalizeFirstLetter = (string) =>
+  //   string.charAt(0).toLowerCase() + string.slice(1).toLowerCase()
 
-  const calculateLossPercentage = () => {
-    const percentageLost = (amountLost / initialTotalPrice) * 100
-    return percentageLost.toFixed(2)
-  }
+  // const calculateLossPercentage = () => {
+  //   const percentageLost = (amountLost / initialTotalPrice) * 100
+  //   return percentageLost.toFixed(2)
+  // }
 
   const handleDrop = (boxName) => {
     const currentItem = items[currentItemIndex]
@@ -123,6 +128,7 @@ const NewScene = () => {
 
     if (currentItem.home.includes(boxName)) {
       correctHomeSound.play()
+      setCorrectItemsCount((prevCount) => prevCount + 1) // Count Correct Items
       setPopupMessage([
         `That's correct!`,
         `Pro Tip: ${currentItem.storage_tip}`,
@@ -154,6 +160,18 @@ const NewScene = () => {
     navigate("/")
   }
 
+  const handleContinue = () => {
+    if (correctItemsCount >= 8) {
+      const starsEarned =
+        correctItemsCount === 10 ? 3 : correctItemsCount === 9 ? 2 : 1
+      const storedProgress =
+        JSON.parse(localStorage.getItem("levelProgress")) || {}
+      storedProgress[level] = Math.max(starsEarned, storedProgress[level] || 0)
+      localStorage.setItem("levelProgress", JSON.stringify(storedProgress))
+    }
+    navigate("/level-selection")
+  }
+
   const capitalizeFirstLetter = (string) =>
     string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
 
@@ -167,6 +185,11 @@ const NewScene = () => {
         }
       }}
     >
+      {/* Quit Button - Fixed in Top Right Corner */}
+      <button className="quit-button" onClick={handleRestart}>
+        Quit Game
+      </button>
+
       <div className="scene-wrapper">
         <div className="scene-container">
           <div className="backdrop"></div>
@@ -284,18 +307,16 @@ const NewScene = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                onClick={handleRestart}
+                onClick={handleContinue}
               >
-                <motion.div
-                  className="popup-content"
-                  initial={{ y: "-50%", opacity: 0 }}
-                  animate={{ y: "0%", opacity: 1 }}
-                  exit={{ y: "-50%", opacity: 0 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  <p>All items have been placed!</p>
+                <motion.div className="popup-content">
+                  <p>{`${
+                    correctItemsCount > 7 ? "Nice Job!" : "Not quite!"
+                  } You got ${correctItemsCount} out of ${
+                    items.length
+                  } correct${correctItemsCount > 7 ? "!" : "."}`}</p>
                   <p>Total Money Lost: ${amountLost.toFixed(2)}</p>
-                  <p className="tap-continue">Tap anywhere to restart</p>
+                  <p className="tap-continue">Tap anywhere to continue</p>
                 </motion.div>
               </motion.div>
             )}

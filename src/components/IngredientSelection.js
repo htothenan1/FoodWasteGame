@@ -85,7 +85,6 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
       <div className="scene-container">
         <div className="backdrop"></div>
 
-        {/* Title and Total Price */}
         <div className="ingredient-title-container">
           <h1 className="ingredient-title">
             Select up to 10 Ingredients ({selectedIngredients.length})
@@ -102,7 +101,6 @@ const IngredientSelectionScreen = ({ onStartGame }) => {
               Proceed to Kitchen
             </button>
           </div>
-          {/* <p className="total-price">Total: ${totalPrice.toFixed(2)}</p> */}
         </div>
 
         {/* Category Bar with Icons */}
