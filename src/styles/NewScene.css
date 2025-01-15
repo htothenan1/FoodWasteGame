@@ -173,8 +173,8 @@
 /* Quit Button Styling */
 .quit-button {
   position: absolute;
-  top: 5%;
-  left: 87%;
+  top: 0%;
+  right: 0;
   width: 120px;
   height: 100px;
   font-size: 2vw;
