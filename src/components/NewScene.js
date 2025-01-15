@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useWindowSize } from "react-use"
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Howl } from "howler"
@@ -93,6 +94,7 @@ const Droppable = ({ name, style, onDrop, onTextClick }) => {
 }
 
 const NewScene = () => {
+  const { width } = useWindowSize() // This dynamically gets the screen size
   const location = useLocation()
   const navigate = useNavigate()
   const {
@@ -202,7 +204,9 @@ const NewScene = () => {
       }}
     >
       {/* Confetti Effect */}
-      {showConfetti && <Confetti numberOfPieces={400} recycle={false} />}
+      {showConfetti && (
+        <Confetti numberOfPieces={400} width={width} recycle={false} />
+      )}
 
       <div className="scene-wrapper">
         <div className="scene-container">
