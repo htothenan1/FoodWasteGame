@@ -21,11 +21,19 @@ const LevelSelectionScreen = () => {
     })
   }
 
+  const handleRestart = () => {
+    navigate("/")
+  }
+
   return (
     <div className="scene-wrapper">
       <div className="scene-container">
         <div className="backdrop"></div>
         <h1 className="level-title">Select a Level</h1>
+        {/* Quit Button - Fixed in Top Right Corner */}
+        <button className="quit-button" onClick={handleRestart}>
+          Quit Game
+        </button>
         <div className="level-grid">
           {levelData.map((level) => (
             <div
@@ -37,6 +45,11 @@ const LevelSelectionScreen = () => {
               <div className="stars-container">
                 {[...Array(3)].map((_, index) => (
                   <IconStar
+                    fill={
+                      index < (progress[level.level] || 0)
+                        ? "#FFD700"
+                        : "#D3D3D3"
+                    }
                     key={index}
                     color={
                       index < (progress[level.level] || 0)
@@ -46,12 +59,6 @@ const LevelSelectionScreen = () => {
                   />
                 ))}
               </div>
-              {/* <button
-                className="play-button"
-                onClick={() => handleLevelSelect(level.level)}
-              >
-                Play Level {level.level}
-              </button> */}
             </div>
           ))}
         </div>

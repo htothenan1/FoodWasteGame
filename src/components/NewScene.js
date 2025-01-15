@@ -5,6 +5,7 @@ import { Howl } from "howler"
 import { CSS } from "@dnd-kit/utilities"
 import { IconCheck, IconX } from "@tabler/icons-react"
 import { motion, AnimatePresence } from "framer-motion"
+import Confetti from "react-confetti" // Importing confetti effect
 import "../styles/NewScene.css"
 
 const correctHomeSound = new Howl({
@@ -47,7 +48,7 @@ const Draggable = ({ item }) => {
   )
 }
 
-const Droppable = ({ name, style, onDrop }) => {
+const Droppable = ({ name, style, onDrop, onTextClick }) => {
   const { setNodeRef, isOver } = useDroppable({
     id: name,
   })
@@ -60,23 +61,34 @@ const Droppable = ({ name, style, onDrop }) => {
   }
 
   return (
-    <motion.div
-      ref={setNodeRef}
-      className="box-container"
-      style={{
-        ...style,
-        backgroundColor: "transparent",
-        backgroundImage: `url(${boxImages[name]})`,
-        backgroundSize: "contain",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        cursor: "pointer",
-      }}
-      animate={isOver ? { scale: 1.1 } : { scale: 1 }}
-      whileHover={{ scale: 1.1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      onClick={() => onDrop(name)}
-    ></motion.div>
+    <>
+      {/* Clickable Text */}
+      <motion.p
+        className={`${name.toLowerCase()}-name`}
+        onClick={() => onDrop(name)}
+      >
+        {name}
+      </motion.p>
+
+      {/* Drop Zone */}
+      <motion.div
+        ref={setNodeRef}
+        className="box-container"
+        style={{
+          ...style,
+          backgroundColor: "transparent",
+          backgroundImage: `url(${boxImages[name]})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          cursor: "pointer",
+        }}
+        animate={isOver ? { scale: 1.1 } : { scale: 1 }}
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        onClick={() => onDrop(name)}
+      />
+    </>
   )
 }
 
@@ -96,6 +108,7 @@ const NewScene = () => {
   const [totalPrice, setTotalPrice] = useState(initialTotalPrice)
   const [amountLost, setAmountLost] = useState(0) // To track lost amount
   const [correctItemsCount, setCorrectItemsCount] = useState(0) // New State to Track Correct Items
+  const [showConfetti, setShowConfetti] = useState(false) // For confetti trigger
 
   useEffect(() => {
     const handleTouchMove = (e) => {
@@ -153,6 +166,9 @@ const NewScene = () => {
 
     if (currentItemIndex + 1 >= items.length) {
       setGameOver(true)
+      if (correctItemsCount === 10) {
+        setShowConfetti(true) // Trigger confetti if perfect score
+      }
     }
   }
 
@@ -185,10 +201,8 @@ const NewScene = () => {
         }
       }}
     >
-      {/* Quit Button - Fixed in Top Right Corner */}
-      <button className="quit-button" onClick={handleRestart}>
-        Quit Game
-      </button>
+      {/* Confetti Effect */}
+      {showConfetti && <Confetti numberOfPieces={400} recycle={false} />}
 
       <div className="scene-wrapper">
         <div className="scene-container">
@@ -202,10 +216,15 @@ const NewScene = () => {
             <p>Drag each item into its correct home</p>
           </div>
 
+          {/* Quit Button - Fixed in Top Right Corner */}
+          <button className="quit-button" onClick={handleRestart}>
+            Quit Game
+          </button>
+
           {/* Compartment titles and drop areas */}
-          <div className="pantry-name">
+          {/* <div className="pantry-name">
             <p>Pantry</p>
-          </div>
+          </div> */}
           <Droppable
             name="Pantry"
             style={{
@@ -216,9 +235,9 @@ const NewScene = () => {
             }}
             onDrop={handleDrop}
           />
-          <div className="fridge-name">
+          {/* <div className="fridge-name">
             <p>Fridge</p>
-          </div>
+          </div> */}
           <Droppable
             name="Fridge"
             style={{
@@ -229,9 +248,9 @@ const NewScene = () => {
             }}
             onDrop={handleDrop}
           />
-          <div className="freezer-name">
+          {/* <div className="freezer-name">
             <p>Freezer</p>
-          </div>
+          </div> */}
           <Droppable
             name="Freezer"
             style={{
@@ -242,9 +261,9 @@ const NewScene = () => {
             }}
             onDrop={handleDrop}
           />
-          <div className="countertop-name">
+          {/* <div className="countertop-name">
             <p>Countertop</p>
-          </div>
+          </div> */}
           <Droppable
             name="Countertop"
             style={{
