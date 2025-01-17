@@ -6,11 +6,11 @@ import { Howl } from "howler"
 import { CSS } from "@dnd-kit/utilities"
 import { IconCheck, IconX } from "@tabler/icons-react"
 import { motion, AnimatePresence } from "framer-motion"
-import Confetti from "react-confetti" // Importing confetti effect
+import Confetti from "react-confetti"
 import Lottie from "react-lottie-player"
-import threeStarAnimation from "../assets/animations/3star.json" // Import the 3-star animation JSON
-import twoStarAnimation from "../assets/animations/2star.json" // Import the 3-star animation JSON
-import oneStarAnimation from "../assets/animations/1star.json" // Import the 3-star animation JSON
+import threeStarAnimation from "../assets/animations/3star.json"
+import twoStarAnimation from "../assets/animations/2star.json"
+import oneStarAnimation from "../assets/animations/1star.json"
 import "../styles/NewScene.css"
 
 const correctHomeSound = new Howl({
@@ -115,6 +115,7 @@ const NewScene = () => {
   const [amountLost, setAmountLost] = useState(0) // To track lost amount
   const [correctItemsCount, setCorrectItemsCount] = useState(0) // New State to Track Correct Items
   const [showConfetti, setShowConfetti] = useState(false) // For confetti trigger
+  const [progressCircles, setProgressCircles] = useState(Array(10).fill(null)) // Progress circles
 
   useEffect(() => {
     const handleTouchMove = (e) => {
@@ -137,23 +138,28 @@ const NewScene = () => {
     const currentItem = items[currentItemIndex]
     if (!currentItem) return
 
+    const newCircles = [...progressCircles] // Copy the current progress circles array
+
     if (currentItem.home.includes(boxName)) {
       correctHomeSound.play()
-      setCorrectItemsCount((prevCount) => prevCount + 1) // Count Correct Items
+      newCircles[currentItemIndex] = "correct" // Mark the circle as correct
+      setCorrectItemsCount((prevCount) => prevCount + 1) // Increment correct items count
       setPopupMessage([
         `That's correct!`,
         `Pro Tip: ${currentItem.storage_tip}`,
       ])
     } else {
-      setTotalPrice((prevTotal) => prevTotal - currentItem.price) // Decrease price when incorrect
-      setAmountLost((prevLost) => prevLost + currentItem.price) // Track lost amount
       incorrectHomeSound.play()
+      setTotalPrice((prevTotal) => prevTotal - currentItem.price) // Deduct price for incorrect
+      setAmountLost((prevLost) => prevLost + currentItem.price) // Track lost amount
+      newCircles[currentItemIndex] = "incorrect" // Mark the circle as incorrect
       setPopupMessage([
         `Oops, wrong choice!`,
         `Pro Tip: ${currentItem.storage_tip}`,
       ])
     }
 
+    setProgressCircles(newCircles) // Update the progress circles
     setPopupVisible(true)
   }
 
@@ -212,19 +218,27 @@ const NewScene = () => {
               <p>{capitalizeFirstLetter(items[currentItemIndex].name)}</p>
             </div>
           )}
-          <div className="instructions">
-            <p>Drag each item into its correct home</p>
+          {/* Progress Circles */}
+          <div className="progress-bar">
+            {progressCircles.map((status, index) => (
+              <div
+                key={index}
+                className={`progress-circle ${
+                  status === "correct"
+                    ? "circle-correct"
+                    : status === "incorrect"
+                    ? "circle-incorrect"
+                    : ""
+                }`}
+              />
+            ))}
           </div>
 
           {/* Quit Button - Fixed in Top Right Corner */}
           <button className="quit-button" onClick={handleRestart}>
-            Quit Game
+            Quit
           </button>
 
-          {/* Compartment titles and drop areas */}
-          {/* <div className="pantry-name">
-            <p>Pantry</p>
-          </div> */}
           <Droppable
             name="Pantry"
             style={{
@@ -235,9 +249,7 @@ const NewScene = () => {
             }}
             onDrop={handleDrop}
           />
-          {/* <div className="fridge-name">
-            <p>Fridge</p>
-          </div> */}
+
           <Droppable
             name="Fridge"
             style={{
