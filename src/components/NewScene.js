@@ -7,6 +7,10 @@ import { CSS } from "@dnd-kit/utilities"
 import { IconCheck, IconX } from "@tabler/icons-react"
 import { motion, AnimatePresence } from "framer-motion"
 import Confetti from "react-confetti" // Importing confetti effect
+import Lottie from "react-lottie-player"
+import threeStarAnimation from "../assets/animations/3star.json" // Import the 3-star animation JSON
+import twoStarAnimation from "../assets/animations/2star.json" // Import the 3-star animation JSON
+import oneStarAnimation from "../assets/animations/1star.json" // Import the 3-star animation JSON
 import "../styles/NewScene.css"
 
 const correctHomeSound = new Howl({
@@ -128,14 +132,6 @@ const NewScene = () => {
   useEffect(() => {
     gameStartSound.play()
   }, [])
-
-  // const unCapitalizeFirstLetter = (string) =>
-  //   string.charAt(0).toLowerCase() + string.slice(1).toLowerCase()
-
-  // const calculateLossPercentage = () => {
-  //   const percentageLost = (amountLost / initialTotalPrice) * 100
-  //   return percentageLost.toFixed(2)
-  // }
 
   const handleDrop = (boxName) => {
     const currentItem = items[currentItemIndex]
@@ -339,6 +335,36 @@ const NewScene = () => {
                     items.length
                   } correct${correctItemsCount > 7 ? "!" : "."}`}</p>
                   <p>Total Money Lost: ${amountLost.toFixed(2)}</p>
+                  {correctItemsCount === 10 && (
+                    <div className="lottie-container">
+                      <Lottie
+                        animationData={threeStarAnimation}
+                        play
+                        loop={true}
+                        style={{ width: 200, height: 200 }}
+                      />
+                    </div>
+                  )}
+                  {correctItemsCount === 9 && (
+                    <div className="lottie-container">
+                      <Lottie
+                        animationData={twoStarAnimation}
+                        play
+                        loop={true}
+                        style={{ width: 200, height: 200 }}
+                      />
+                    </div>
+                  )}
+                  {correctItemsCount === 8 && (
+                    <div className="lottie-container">
+                      <Lottie
+                        animationData={oneStarAnimation}
+                        play
+                        loop={true}
+                        style={{ width: 200, height: 200 }}
+                      />
+                    </div>
+                  )}
                   <p className="tap-continue">Tap anywhere to continue</p>
                 </motion.div>
               </motion.div>
