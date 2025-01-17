@@ -63,10 +63,10 @@
 
 /* Call to Action Button with Resizing */
 .play-now-button {
-  position: absolute;
-  bottom: 20%;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  /* bottom: 20%;
+  left: 45%; */
+  margin-top: 250px;
   padding: 1vw 2vw;
   font-size: 2vw;
   color: white;
@@ -74,5 +74,10 @@
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: 0.2s ease, background-color 0.3s ease;
+}
+
+.play-now-button:hover {
+  background-color: #3d8f40;
+  transform: scale(1.1);
 }
