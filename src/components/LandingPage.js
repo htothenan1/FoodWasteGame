@@ -25,7 +25,18 @@ const LandingPage = () => {
         {/* Title and Subtitle Container */}
         <div className="landing-title-container">
           <h1 className="landing-title">Ready, Set, Store!</h1>
-          <p className="landing-subtitle">A Fun Food Storage Game</p>
+          <p className="landing-subtitle">
+            A{" "}
+            <a
+              className="feedlink-link"
+              href="https://feedlink.app"
+              target="_blank"
+              rel="noreferrer"
+            >
+              FeedLink
+            </a>{" "}
+            Food Storage Game
+          </p>
         </div>
 
         {/* Call to Action Button */}

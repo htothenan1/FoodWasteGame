@@ -61,6 +61,11 @@
   color: white;
 }
 
+.feedlink-link {
+  text-decoration: underline;
+  color: white;
+}
+
 /* Call to Action Button with Resizing */
 .play-now-button {
   position: relative;
